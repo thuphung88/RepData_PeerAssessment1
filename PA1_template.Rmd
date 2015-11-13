@@ -1,18 +1,25 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
 ---
 
 
 ## Loading and preprocessing the data
 
-
+```{r}
+unzip(zipfile="activity.zip")
+data <- read.csv("activity.csv")
+data$date <- as.Date(data$date)
+```
 
 ## What is mean total number of steps taken per day?
 
-
+```{r}
+library(ggplot2)
+totalsteps <- aggregate(steps ~ date,data = data,sum,na.rm=TRUE)
+qplot(totalsteps$date,totalsteps$steps,stat="identity",geom="histogram", xlab = "Total number of steps taken per day")
+mean(totalsteps$steps, na.rm=TRUE)
+median(totalsteps$steps,na.rm=TRUE)
+```
 
 ## What is the average daily activity pattern?
 
